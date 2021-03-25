@@ -1,8 +1,8 @@
 import s from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ id, webformatURL, tags, onToggleModal }) => {
+const ImageGalleryItem = ({ webformatURL, tags, onToggleModal }) => {
   return (
-    <li className={s.ImageGalleryItem} key={id} onClick={onToggleModal}>
+    <li className={s.ImageGalleryItem} onClick={onToggleModal}>
       <img
         src={webformatURL}
         alt={`${tags}`}
