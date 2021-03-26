@@ -8,7 +8,6 @@ class SearchBar extends Component {
 
   // изменение значения инпута
   handleSearch = e => {
-    // console.log(e.target.value);
     this.setState({ query: e.currentTarget.value });
   };
 

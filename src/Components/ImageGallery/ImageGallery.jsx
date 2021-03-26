@@ -7,11 +7,12 @@ class ImageGallery extends Component {
     const images = this.props.images;
     return (
       <ul className={s.ImageGallery}>
-        {images.map(({ id, webformatURL, tags }) => (
+        {images.map(({ id, webformatURL, tags, largeImageURL }) => (
           <ImageGalleryItem
             key={id}
             webformatURL={webformatURL}
             tags={tags}
+            largeImageURL={largeImageURL}
             onToggleModal={this.props.onToggleModal}
           />
         ))}

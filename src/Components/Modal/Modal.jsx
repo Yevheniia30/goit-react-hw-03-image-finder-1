@@ -23,7 +23,7 @@ class Modal extends Component {
     }
   };
 
-  // закрітие нажатием на оверлей
+  // закрытие нажатием на оверлей
   handleClickOnOverlay = e => {
     if (e.target === e.currentTarget) {
       this.props.onClose();
@@ -31,17 +31,9 @@ class Modal extends Component {
   };
 
   render() {
-    // const images = this.props.images;
-
     return createPortal(
       <div className={s.Overlay} onClick={this.handleClickOnOverlay}>
-        <div className={s.Modal}>
-          {/* {images.map(({ id, largeImageURL }) => (
-            <img key={id} src={largeImageURL} alt="" />
-          ))} */}
-
-          {this.props.children}
-        </div>
+        <div className={s.Modal}></div>
       </div>,
       modalRoot,
     );
