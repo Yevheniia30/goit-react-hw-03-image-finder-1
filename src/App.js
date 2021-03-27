@@ -9,7 +9,6 @@ import LoadButton from './Components/LoadButton';
 
 class App extends Component {
   state = {
-    // showModal: false,
     images: [],
     page: 1,
     searchQuery: '',
