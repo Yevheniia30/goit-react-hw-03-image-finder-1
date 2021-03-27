@@ -15,11 +15,11 @@ class SearchBar extends Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.onSubmit(this.state.query);
-
     this.setState({ query: '' });
   };
 
   render() {
+    const { query } = this.state;
     return (
       <header className={s.Searchbar}>
         <form className={s.SearchForm} onSubmit={this.handleSubmit}>
@@ -29,7 +29,7 @@ class SearchBar extends Component {
 
           <input
             className={s.SearchForm_input}
-            value={this.state.query}
+            value={query}
             type="text"
             autoComplete="off"
             autoFocus

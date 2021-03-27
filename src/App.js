@@ -9,13 +9,14 @@ import LoadButton from './Components/LoadButton';
 
 class App extends Component {
   state = {
-    showModal: false,
+    // showModal: false,
     images: [],
     page: 1,
     searchQuery: '',
     isLoading: false,
     error: null,
     modalImage: '',
+    altModalImage: '',
   };
 
   // запрос на API нужно сделать когда state (у нас searchQuery) обновился и не равен предідущему
@@ -47,20 +48,36 @@ class App extends Component {
           images: [...prevState.images, ...res.data.hits],
           page: prevState.page + 1,
         }));
+        // плавный скролл стр когда приходит новые изображения
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        });
       })
       .catch(error => this.setState({ error }))
       .finally(() => this.setState({ isLoading: false }));
   };
 
-  // открываем/закрываем модалку
+  // открываем модалку кликом на картику галереи
+  handleOnImgClick = e => {
+    if (e.target.nodeName === 'IMG') {
+      this.setState({
+        modalImage: e.target.dataset.modal,
+        altModalImage: e.target.alt,
+      });
+    }
+  };
+
+  // закрытие модалки
   toggleModal = () => {
-    this.setState(prevState => ({
-      showModal: !prevState.showModal,
-    }));
+    this.setState({
+      modalImage: '',
+      altModalImage: '',
+    });
   };
 
   render() {
-    const { images, isLoading, showModal, error } = this.state;
+    const { images, isLoading, modalImage, altModalImage, error } = this.state;
 
     return (
       <div className={s.App}>
@@ -68,9 +85,15 @@ class App extends Component {
 
         {error && <p>Oops! Something went wrong...</p>}
 
-        <ImageGallery images={images} onToggleModal={this.toggleModal} />
+        <ImageGallery images={images} onImgClick={this.handleOnImgClick} />
 
-        {showModal && <Modal onClose={this.toggleModal}></Modal>}
+        {modalImage && (
+          <Modal
+            onClose={this.toggleModal}
+            srcModal={modalImage}
+            altModal={altModalImage}
+          />
+        )}
 
         {images.length > 0 && !isLoading && (
           <LoadButton onFetchImages={this.fetchImages} />
