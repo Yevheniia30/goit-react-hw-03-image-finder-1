@@ -1,11 +1,12 @@
 import { Component } from 'react';
-import axios from 'axios';
+
 import Loader from 'react-loader-spinner';
 import s from './App.module.css';
 import ImageGallery from './Components/ImageGallery';
 import SearchBar from './Components/SearchBar';
 import Modal from './Components/Modal';
 import LoadButton from './Components/LoadButton';
+import imagesApi from './services/images-api';
 
 class App extends Component {
   state = {
@@ -34,17 +35,18 @@ class App extends Component {
   //запрс на API согласно ключевому слову в строке поиска вызывается при сабмите и при нажатии loadMore
   fetchImages = () => {
     const { searchQuery, page } = this.state;
-    const key = '16825213-7fb8f93f8fb61dc742d5122ac';
 
+    const options = {
+      page,
+      searchQuery,
+    };
     this.setState({ isLoading: true });
 
-    axios
-      .get(
-        `https://pixabay.com/api/?q=${searchQuery}&page=${page}&key=${key}&image_type=photo&orientation=horizontal&per_page=12`,
-      )
-      .then(res => {
+    imagesApi
+      .fetchImages(options)
+      .then(images => {
         this.setState(prevState => ({
-          images: [...prevState.images, ...res.data.hits],
+          images: [...prevState.images, ...images],
           page: prevState.page + 1,
         }));
         // плавный скролл стр когда приходит новые изображения
